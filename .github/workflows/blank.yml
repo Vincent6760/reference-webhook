@@ -20,9 +20,8 @@ jobs:
 
       - name: Send next question
         run: |
-          test test 
-          ooooo
-          eeeeee
+          # ======================================
+          hi
 
           readarray -t QUESTIONS << 'EOF'
           EOF
