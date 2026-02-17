@@ -20,10 +20,9 @@ jobs:
 
       - name: Send next question
         run: |
-          # ======================================
-          # PUT YOUR QUESTIONS BETWEEN THE MARKERS
-          # One question per line
-          # ======================================
+          test test 
+          ooooo
+          eeeeee
 
           readarray -t QUESTIONS << 'EOF'
           EOF
