@@ -1,36 +1,72 @@
-# This is a basic workflow to help you get started with Actions
+name: Reference Discord Question
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+  schedule:
+    - cron: "0 10 */3 * *"
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: write
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  send-message:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Send next question
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          # ======================================
+          # PUT YOUR QUESTIONS BETWEEN THE MARKERS
+          # One question per line
+          # ======================================
+
+          readarray -t QUESTIONS << 'EOF'
+          EOF
+
+          # ======================================
+          # DO NOT EDIT BELOW THIS LINE
+          # ======================================
+
+          if [ "${#QUESTIONS[@]}" -eq 0 ]; then
+            echo "No questions found. Exiting."
+            exit 0
+          fi
+
+          INDEX_FILE=".question_index"
+
+          if [ ! -f "$INDEX_FILE" ]; then
+            echo 0 > "$INDEX_FILE"
+          fi
+
+          INDEX=$(cat "$INDEX_FILE")
+
+          if [ "$INDEX" -ge "${#QUESTIONS[@]}" ]; then
+            INDEX=0
+          fi
+
+          MESSAGE="${QUESTIONS[$INDEX]}"
+          NEXT_INDEX=$((INDEX + 1))
+
+          echo $NEXT_INDEX > "$INDEX_FILE"
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add "$INDEX_FILE"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Rotate reference webhook question"
+            git push
+          fi
+
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"$MESSAGE\"}" \
+            ${{ secrets.TORU }}
