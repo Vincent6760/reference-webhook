@@ -72,7 +72,7 @@ jobs:
           -H "Content-Type: application/json" \
           -d "{
             \"embeds\": [{
-              \"title\": \"Anime Question\",
+              \"title\": \"Reference\",
               \"description\": \"$MESSAGE\",
               \"color\": 16711680
               }]
