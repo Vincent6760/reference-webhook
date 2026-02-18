@@ -36,7 +36,7 @@ jobs:
           # DO NOT EDIT BELOW THIS LINE
           # ======================================
 
-          if [ "${#QUESTIONS[@]}" -eq 0 ]; then
+          if [ "${#REFERENCES[@]}" -eq 0 ]; then
             echo "No questions found. Exiting."
             exit 0
           fi
