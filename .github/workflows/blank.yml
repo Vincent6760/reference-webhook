@@ -25,10 +25,9 @@ jobs:
           # ======================================
 
           readarray -t QUESTIONS << 'EOF'
-          hi
-          1
-          2
-          3
+          
+          What are your favorite animes?\nExplain why.
+          
           EOF
 
           # ======================================
