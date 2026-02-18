@@ -26,6 +26,8 @@ jobs:
 
           readarray -t QUESTIONS << 'EOF'
           What are your favorite animes?\nExplain why.
+          test test\nugh south asians
+          test test\human child
           EOF
 
           # ======================================
