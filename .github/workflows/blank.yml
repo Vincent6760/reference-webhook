@@ -25,9 +25,9 @@ jobs:
           # ======================================
 
           readarray -t REFERENCES << 'EOF'
-          image|https://example.com/image1.jpg
+          image|file:///C:/Users/Admin/Desktop/Vincent/V-Photos%20and%20videos/7be06a7a7b4b8a026c00302dd7b4d975.jpg
           text|This character lost his mother in the first episode.
-          image|https://example.com/image2.jpg
+          image|file:///C:/Users/Admin/Desktop/Vincent/V-Photos%20and%20videos/7be06a7a7b4b8a026c00302dd7b4d975.jpg
           text|This world runs on alchemy and equivalent exchange.
           EOF
 
