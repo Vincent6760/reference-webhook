@@ -24,11 +24,13 @@ jobs:
           
           # ======================================
 
-          readarray -t QUESTIONS << 'EOF'
-          What are your favorite animes?\nExplain why.
-          test test\nugh south asians
-          test test\human child
+          readarray -t REFERENCES << 'EOF'
+          image|https://example.com/image1.jpg
+          text|This character lost his mother in the first episode.
+          image|https://example.com/image2.jpg
+          text|This world runs on alchemy and equivalent exchange.
           EOF
+
 
           # ======================================
           # DO NOT EDIT BELOW THIS LINE
@@ -51,7 +53,11 @@ jobs:
             INDEX=0
           fi
 
-          MESSAGE="${QUESTIONS[$INDEX]}"
+          ENTRY="${REFERENCES[$INDEX]}"
+
+          TYPE="${ENTRY%%|*}"
+          CONTENT="${ENTRY#*|}"
+
           NEXT_INDEX=$((INDEX + 1))
 
           echo $NEXT_INDEX > "$INDEX_FILE"
@@ -67,14 +73,30 @@ jobs:
             git commit -m "Rotate reference webhook question"
             git push
           fi
-
+          
+          if [ "$TYPE" = "image" ]; then
           curl -X POST \
           -H "Content-Type: application/json" \
           -d "{
             \"embeds\": [{
-              \"title\": \"Reference\",
-              \"description\": \"$MESSAGE\",
-              \"color\": 10181046
-              }]
+              \"color\": 3447003,
+              \"image\": {
+                \"url\": \"$CONTENT\"
+              }
+             }]
             }" \
             ${{ secrets.TORU }}
+
+          elif [ "$TYPE" = "text" ]; then
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"Guess The Reference\",
+                \"description\": \"$CONTENT\",
+                \"color\": 10181046
+              }]
+             }" \
+            ${{ secrets.TORU }}
+              fi
+
