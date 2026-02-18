@@ -2,7 +2,7 @@ name: Reference Discord Question
 
 on:
   schedule:
-    - cron: "0 10 */3 * *"
+    - cron: "0 10 */1 * *"
   workflow_dispatch:
 
 permissions:
@@ -69,6 +69,12 @@ jobs:
           fi
 
           curl -X POST \
-            -H "Content-Type: application/json" \
-            -d "{\"content\":\"$MESSAGE\"}" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"embeds\": [{
+              \"title\": \"Anime Question\",
+              \"description\": \"$MESSAGE\",
+              \"color\": 16711680
+              }]
+            }" \
             ${{ secrets.TORU }}
