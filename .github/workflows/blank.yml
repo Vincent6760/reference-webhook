@@ -41,7 +41,7 @@ jobs:
             exit 0
           fi
 
-          INDEX_FILE=".question_index"
+          INDEX_FILE=".reference_index"
 
           if [ ! -f "$INDEX_FILE" ]; then
             echo 0 > "$INDEX_FILE"
@@ -49,7 +49,7 @@ jobs:
 
           INDEX=$(cat "$INDEX_FILE")
 
-          if [ "$INDEX" -ge "${#QUESTIONS[@]}" ]; then
+          if [ "$INDEX" -ge "${#REFERENCES[@]}" ]; then
             INDEX=0
           fi
 
