@@ -2,7 +2,7 @@ name: Reference Discord Question
 
 on:
   schedule:
-    - cron: "0 10 */1 * *"
+    - cron: "0 6 */1 * *"
   workflow_dispatch:
 
 permissions:
@@ -25,10 +25,19 @@ jobs:
           # ======================================
 
           readarray -t REFERENCES << 'EOF'
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/7be06a7a7b4b8a026c00302dd7b4d975.jpg
-          text|One ring to rule them all\nOne ring to find them\nOne ring to bring them all\nAnd in the darkness bind them
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/7be06a7a7b4b8a026c00302dd7b4d975.jpg
-          text|Human child.
+          text|Let me break it down to you, Mark.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/The_Cake_is_a_Lie_(12521108583).jpg
+          text|One ring to rule them all.\nOne ring to find them.\nOne ring to bring them all.\nAnd in the darkness bind them.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/mikuwhite.jfif
+          text|No cost too great.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/silksong.png
+          text|I am inevitable.
+          text|It’s a beautiful day outside. Birds are singing, flowers are blooming…\nOn days like these, kids like you…\nShould be burning in hell.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/tameyourdragon.jpg
+          text|Say my name.
+          text|I drink and I know things.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/grimm.jpg
+          text|NO DISTRACTIONS!
           EOF
 
 
@@ -79,7 +88,7 @@ jobs:
           -H "Content-Type: application/json" \
           -d "{
             \"embeds\": [{
-              \"color\": 3447003,
+              \"color\": 10181046,
               \"image\": {
                 \"url\": \"$CONTENT\"
               }
