@@ -25,9 +25,9 @@ jobs:
           # ======================================
 
           readarray -t REFERENCES << 'EOF'
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/blob/main/images/7be06a7a7b4b8a026c00302dd7b4d975.jpg
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/7be06a7a7b4b8a026c00302dd7b4d975.jpg
           text|One ring to rule them all\nOne ring to find them\nOne ring to bring them all\nAnd in the darkness bind them
-          image|images/7be06a7a7b4b8a026c00302dd7b4d975.jpg
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/7be06a7a7b4b8a026c00302dd7b4d975.jpg
           text|Human child.
           EOF
 
