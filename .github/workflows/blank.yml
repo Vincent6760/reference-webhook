@@ -2,7 +2,7 @@ name: Reference Discord Question
 
 on:
   schedule:
-    - cron: "0 6 */1 * *"
+    - cron: "0 17 */1 * *"
   workflow_dispatch:
 
 permissions:
@@ -61,7 +61,8 @@ jobs:
           INDEX=$(cat "$INDEX_FILE")
 
           if [ "$INDEX" -ge "${#REFERENCES[@]}" ]; then
-            INDEX=0
+            echo "All references sent. Stopping."
+            exit 0
           fi
 
           ENTRY="${REFERENCES[$INDEX]}"
