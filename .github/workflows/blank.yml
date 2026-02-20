@@ -25,6 +25,21 @@ jobs:
           # ======================================
 
           readarray -t REFERENCES << 'EOF'
+          text|One ring to rule them all.\nOne ring to find them.\nOne ring to bring them all.\nAnd in the darkness bind them.
+          text|Let me break it down to you, Mark.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/The_Cake_is_a_Lie_(12521108583).jpg
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/mikuwhite.jfif
+          text|No cost too great.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/silksong.png
+          text|I am inevitable.
+          text|It’s a beautiful day outside. Birds are singing, flowers are blooming…\nOn days like these, kids like you…\nShould be burning in hell.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/tameyourdragon.jpg
+          text|Say my name.
+          text|I drink and I know things.
+          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/grimm.jpg
+          text|NO DISTRACTIONS!
+
+
           EOF
 
 
