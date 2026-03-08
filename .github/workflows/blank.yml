@@ -18,37 +18,25 @@ jobs:
         with:
           persist-credentials: true
 
-      - name: Send next question
+      - name: Send next post
         run: |
-          # ======================================
-          
           # ======================================
 
           readarray -t REFERENCES << 'EOF'
-          text|One ring to rule them all.\nOne ring to find them.\nOne ring to bring them all.\nAnd in the darkness bind them.
-          text|Let me break it down to you, Mark.
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/The_Cake_is_a_Lie_(12521108583).jpg
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/mikuwhite.jfif
-          text|No cost too great.
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/silksong.png
-          text|I am inevitable.
-          text|It’s a beautiful day outside. Birds are singing, flowers are blooming…\nOn days like these, kids like you…\nShould be burning in hell.
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/tameyourdragon.jpg
-          text|Say my name.
-          text|I drink and I know things.
-          image|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/grimm.jpg
-          text|NO DISTRACTIONS!
-
+          media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/The_Cake_is_a_Lie_(12521108583).jpg
+          media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/mikuwhite.jfif
+          media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/silksong.png
+          media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/tameyourdragon.jpg
+          media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/grimm.jpg
 
           EOF
-
 
           # ======================================
           # DO NOT EDIT BELOW THIS LINE
           # ======================================
 
           if [ "${#REFERENCES[@]}" -eq 0 ]; then
-            echo "No questions found. Exiting."
+            echo "No references found. Exiting."
             exit 0
           fi
 
@@ -66,12 +54,9 @@ jobs:
           fi
 
           ENTRY="${REFERENCES[$INDEX]}"
-
-          TYPE="${ENTRY%%|*}"
           CONTENT="${ENTRY#*|}"
 
           NEXT_INDEX=$((INDEX + 1))
-
           echo $NEXT_INDEX > "$INDEX_FILE"
 
           git config user.name "github-actions"
@@ -82,33 +67,33 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Rotate reference webhook question"
+            git commit -m "Rotate webhook post"
             git push
           fi
-          
-          if [ "$TYPE" = "image" ]; then
-          curl -X POST \
-          -H "Content-Type: application/json" \
-          -d "{
-            \"embeds\": [{
-              \"color\": 10181046,
-              \"image\": {
-                \"url\": \"$CONTENT\"
-              }
-             }]
-            }" \
-            ${{ secrets.TORU }}
 
-          elif [ "$TYPE" = "text" ]; then
-          curl -X POST \
+          # Detect file type
+          if [[ "$CONTENT" =~ \.(jpg|jpeg|png|webp|gif)$ ]]; then
+
+            curl -X POST \
             -H "Content-Type: application/json" \
             -d "{
               \"embeds\": [{
-                \"title\": \"Guess The Reference\",
-                \"description\": \"$CONTENT\",
-                \"color\": 10181046
+                \"title\": \"shitposting\",
+                \"color\": 10181046,
+                \"image\": {
+                  \"url\": \"$CONTENT\"
+                }
               }]
-             }" \
+            }" \
             ${{ secrets.TORU }}
-              fi
 
+          else
+
+            curl -X POST \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"content\": \"$CONTENT\"
+            }" \
+            ${{ secrets.TORU }}
+
+          fi
