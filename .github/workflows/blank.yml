@@ -47,7 +47,8 @@ jobs:
           CONTENT="${ENTRY#*|}"
 
           # Detect file type
-          if [[ "$CONTENT" =~ \.(jpg|jpeg|png|webp|gif)$ ]]; then
+          if [[ "$CONTENT" =~ \.(jpg|jpeg|png|webp|gif|jfif)$ ]]; then
+
 
             curl -X POST \
             -H "Content-Type: application/json" \
