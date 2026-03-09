@@ -60,10 +60,14 @@ jobs:
           else
 
             curl -X POST \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"content\": \"$CONTENT\"
-            }" \
-            ${{ secrets.TORU }}
+          -F "payload_json={
+            \"embeds\": [{
+              \"title\": \"shitposting\",
+              \"color\": 10181046
+              }]
+          }" \
+          -F "file=@<(curl -L $CONTENT)"     
+          ${{ secrets.TORU }}
 
           fi
+          
