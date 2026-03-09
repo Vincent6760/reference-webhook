@@ -48,9 +48,9 @@ jobs:
 
           INDEX=$(cat "$INDEX_FILE")
 
+          # Loop instead of stopping
           if [ "$INDEX" -ge "${#REFERENCES[@]}" ]; then
-            echo "All references sent. Stopping."
-            exit 0
+            INDEX=0
           fi
 
           ENTRY="${REFERENCES[$INDEX]}"
