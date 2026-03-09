@@ -22,7 +22,7 @@ jobs:
 
           readarray -t REFERENCES << 'EOF'
           media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/videoshitposting(2).mp4
-          
+          EOF
 
           # ======================================
           # DO NOT EDIT BELOW THIS LINE
