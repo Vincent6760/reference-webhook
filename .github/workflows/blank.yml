@@ -40,36 +40,11 @@ jobs:
             exit 0
           fi
 
-          INDEX_FILE=".reference_index"
-
-          if [ ! -f "$INDEX_FILE" ]; then
-            echo 0 > "$INDEX_FILE"
-          fi
-
-          INDEX=$(cat "$INDEX_FILE")
-
-          # Loop instead of stopping
-          if [ "$INDEX" -ge "${#REFERENCES[@]}" ]; then
-            INDEX=0
-          fi
+          # Pick random index
+          INDEX=$((RANDOM % ${#REFERENCES[@]}))
 
           ENTRY="${REFERENCES[$INDEX]}"
           CONTENT="${ENTRY#*|}"
-
-          NEXT_INDEX=$((INDEX + 1))
-          echo $NEXT_INDEX > "$INDEX_FILE"
-
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-          git add "$INDEX_FILE"
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Rotate webhook post"
-            git push
-          fi
 
           # Detect file type
           if [[ "$CONTENT" =~ \.(jpg|jpeg|png|webp|gif)$ ]]; then
