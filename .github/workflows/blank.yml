@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   send-message:
@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
 
       - name: Send next post
         run: |
@@ -28,7 +26,6 @@ jobs:
           media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/silksong.png
           media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/tameyourdragon.jpg
           media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/grimm.jpg
-
           EOF
 
           # ======================================
@@ -40,41 +37,13 @@ jobs:
             exit 0
           fi
 
-          LAST_FILE=".last_reference"
-
-          if [ ! -f "$LAST_FILE" ]; then
-            echo -1 > "$LAST_FILE"
-          fi
-
-          LAST_INDEX=$(cat "$LAST_FILE")
-
           COUNT=${#REFERENCES[@]}
 
-          # Pick random but avoid repeating last one
+          # Pick random entry
           INDEX=$((RANDOM % COUNT))
-
-          if [ "$COUNT" -gt 1 ]; then
-            while [ "$INDEX" -eq "$LAST_INDEX" ]; do
-              INDEX=$((RANDOM % COUNT))
-            done
-          fi
-
-          echo "$INDEX" > "$LAST_FILE"
 
           ENTRY="${REFERENCES[$INDEX]}"
           CONTENT="${ENTRY#*|}"
-
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add "$LAST_FILE"
-
-          if git diff --cached --quiet; then
-          echo "No changes to commit"
-          else
-          git commit -m "Update last webhook post"
-          git pull --rebase
-          git push
-          fi
 
           # Detect file type
           if [[ "$CONTENT" =~ \.(jpg|jpeg|png|webp|gif|jfif)$ ]]; then
