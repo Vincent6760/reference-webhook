@@ -66,14 +66,14 @@ jobs:
 
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
           git add "$LAST_FILE"
 
           if git diff --cached --quiet; then
-            echo "No changes to commit"
+          echo "No changes to commit"
           else
-            git commit -m "Update last webhook post"
-            git push
+          git commit -m "Update last webhook post"
+          git pull --rebase
+          git push
           fi
 
           # Detect file type
