@@ -21,7 +21,7 @@ jobs:
           # ======================================
 
           readarray -t REFERENCES << 'EOF'
-          media|https://cdn.discordapp.com/attachments/1345440188242854081/1480573271425683596/videoshitposting2.mp4?ex=69b02acf&is=69aed94f&hm=a749258bc4b2b08eb0fa8dfb587e8e63075ef1d1ae4e7bee5c7969735dc5c213&
+          media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/videoshitposting(2).mp4
           EOF
 
           # ======================================
