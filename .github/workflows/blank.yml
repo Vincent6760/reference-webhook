@@ -40,15 +40,44 @@ jobs:
             exit 0
           fi
 
-          # Pick random index
-          INDEX=$((RANDOM % ${#REFERENCES[@]}))
+          LAST_FILE=".last_reference"
+
+          if [ ! -f "$LAST_FILE" ]; then
+            echo -1 > "$LAST_FILE"
+          fi
+
+          LAST_INDEX=$(cat "$LAST_FILE")
+
+          COUNT=${#REFERENCES[@]}
+
+          # Pick random but avoid repeating last one
+          INDEX=$((RANDOM % COUNT))
+
+          if [ "$COUNT" -gt 1 ]; then
+            while [ "$INDEX" -eq "$LAST_INDEX" ]; do
+              INDEX=$((RANDOM % COUNT))
+            done
+          fi
+
+          echo "$INDEX" > "$LAST_FILE"
 
           ENTRY="${REFERENCES[$INDEX]}"
           CONTENT="${ENTRY#*|}"
 
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add "$LAST_FILE"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update last webhook post"
+            git push
+          fi
+
           # Detect file type
           if [[ "$CONTENT" =~ \.(jpg|jpeg|png|webp|gif|jfif)$ ]]; then
-
 
             curl -X POST \
             -H "Content-Type: application/json" \
