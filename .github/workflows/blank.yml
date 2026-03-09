@@ -17,6 +17,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Send next post
+        env:
+          WEBHOOK: ${{ secrets.TORU }}
         run: |
           # ======================================
 
@@ -55,19 +57,20 @@ jobs:
                 }
               }]
             }" \
-            ${{ secrets.TORU }}
+            "$WEBHOOK"
 
           else
 
+            curl -L "$CONTENT" -o video.mp4
+
             curl -X POST \
-          -F "payload_json={
-            \"embeds\": [{
-              \"title\": \"shitposting\",
-              \"color\": 10181046
+            -F "payload_json={
+              \"embeds\": [{
+                \"title\": \"shitposting\",
+                \"color\": 10181046
               }]
-          }" \
-          -F "file=@<(curl -L $CONTENT)"     
-          ${{ secrets.TORU }}
+            }" \
+            -F "file=@video.mp4" \
+            "$WEBHOOK"
 
           fi
-          
