@@ -16,35 +16,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Send next post
+      - name: Send random media from images folder
         env:
           WEBHOOK: ${{ secrets.TORU }}
         run: |
           # ======================================
-
-          readarray -t REFERENCES << 'EOF'
-          media|https://raw.githubusercontent.com/Vincent6760/reference-webhook/main/images/videoshitposting(2).mp4
-          EOF
-
-          # ======================================
-          # DO NOT EDIT BELOW THIS LINE
+          # Automatically load files from /images
           # ======================================
 
-          if [ "${#REFERENCES[@]}" -eq 0 ]; then
-            echo "No references found. Exiting."
+          FILES=(images/*)
+
+          COUNT=${#FILES[@]}
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "No media files found."
             exit 0
           fi
 
-          COUNT=${#REFERENCES[@]}
-
-          # Pick random entry
+          # Pick random file
           INDEX=$((RANDOM % COUNT))
+          FILE="${FILES[$INDEX]}"
 
-          ENTRY="${REFERENCES[$INDEX]}"
-          CONTENT="${ENTRY#*|}"
+          echo "Selected file: $FILE"
+
+          # Encode spaces for URL
+          ENCODED_FILE=$(printf '%s\n' "$FILE" | sed 's/ /%20/g')
+
+          RAW_URL="https://raw.githubusercontent.com/${{ github.repository }}/main/$ENCODED_FILE"
+
+          echo "Raw URL: $RAW_URL"
 
           # Detect file type
-          if [[ "$CONTENT" =~ \.(jpg|jpeg|png|webp|gif|jfif)$ ]]; then
+          if [[ "$FILE" =~ \.(jpg|jpeg|png|webp|gif|jfif)$ ]]; then
 
             curl -X POST \
             -H "Content-Type: application/json" \
@@ -53,7 +56,7 @@ jobs:
                 \"title\": \"shitposting\",
                 \"color\": 10181046,
                 \"image\": {
-                  \"url\": \"$CONTENT\"
+                  \"url\": \"$RAW_URL\"
                 }
               }]
             }" \
@@ -61,7 +64,7 @@ jobs:
 
           else
 
-            curl -L "$CONTENT" -o video.mp4
+            curl -L "$RAW_URL" -o mediafile
 
             curl -X POST \
             -F "payload_json={
@@ -70,7 +73,7 @@ jobs:
                 \"color\": 10181046
               }]
             }" \
-            -F "file=@video.mp4" \
+            -F "file=@mediafile" \
             "$WEBHOOK"
 
           fi
