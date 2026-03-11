@@ -24,7 +24,7 @@ jobs:
           # Automatically load files from /images
           # ======================================
 
-          FILES=(test/*)
+          FILES=(images/*)
 
           COUNT=${#FILES[@]}
 
