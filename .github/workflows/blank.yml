@@ -64,7 +64,8 @@ jobs:
 
           else
 
-            curl -L "$RAW_URL" -o mediafile
+            FILENAME=$(basename "$FILE")
+            curl -L "$RAW_URL" -o "$FILENAME"
 
             curl -X POST \
             -F "payload_json={
@@ -73,7 +74,7 @@ jobs:
                 \"color\": 10181046
               }]
             }" \
-            -F "file=@mediafile" \
+            -F "file=@$FILENAME" \
             "$WEBHOOK"
 
           fi
