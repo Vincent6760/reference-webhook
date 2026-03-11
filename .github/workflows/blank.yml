@@ -68,12 +68,7 @@ jobs:
             curl -L "$RAW_URL" -o "$FILENAME"
 
             curl -X POST \
-            -F "payload_json={
-              \"embeds\": [{
-                \"title\": \"shitposting\",
-                \"color\": 10181046
-              }]
-            }" \
+            -F "content=shitposting" \
             -F "file=@$FILENAME" \
             "$WEBHOOK"
 
